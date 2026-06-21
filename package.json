@@ -1,0 +1,14 @@
+{
+  "name": "calculadora-tributacao",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -n BACK,FRONT -c cyan,magenta \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
+    "install:all": "npm install --prefix backend && npm install --prefix frontend"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "lottie-react": "^2.4.1"
+  }
+}
