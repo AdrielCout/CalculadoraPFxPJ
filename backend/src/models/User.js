@@ -1,27 +1,23 @@
-import pool from '../config/database.js';
+import prisma from '../prismaClient.js';
 
 export const User = {
   async create(email, passwordHash) {
-    const result = await pool.query(
-      'INSERT INTO users (email, password_hash) VALUES ($1, $2) RETURNING id, email, created_at',
-      [email, passwordHash]
-    );
-    return result.rows[0];
+    return prisma.users.create({
+      data: { email, password_hash: passwordHash },
+      select: { id: true, email: true, created_at: true },
+    });
   },
 
   async findByEmail(email) {
-    const result = await pool.query(
-      'SELECT * FROM users WHERE email = $1',
-      [email]
-    );
-    return result.rows[0];
+    return prisma.users.findUnique({
+      where: { email },
+    });
   },
 
   async findById(id) {
-    const result = await pool.query(
-      'SELECT id, email, created_at FROM users WHERE id = $1',
-      [id]
-    );
-    return result.rows[0];
+    return prisma.users.findUnique({
+      where: { id },
+      select: { id: true, email: true, created_at: true },
+    });
   },
 };
